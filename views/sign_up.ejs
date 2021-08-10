@@ -1,0 +1,14 @@
+<link rel="stylesheet" type="text/css" href="/css/authenticate.css">
+<div id="authenticate-root-div">
+    <div id="authenticate-header">Habit Tracker</div>
+    <img src="https://img.freepik.com/free-vector/illustration-calendar-icon_53876-5588.jpg?size=338&ext=jpg">
+    <div id="authenticate-form">
+        <form method="POST" action="/users/create-user">
+            <input type="email" placeholder="Your Email" name="email" required><br/>
+            <input type="text" placeholder="Your Name" name="name" required><br/>
+            <input type="password" placeholder="Your Password" name="password" required><br/>
+            <input type="password" placeholder="Confirm Password" name="confirm_password" required><br/>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>

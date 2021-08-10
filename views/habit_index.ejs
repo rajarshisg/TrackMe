@@ -1,0 +1,89 @@
+<link rel="stylesheet" type="text/css" href="/css/habit_index.css">
+<div id="habit-header">
+    <div id="header-name">TrackMe</div>
+    <div>
+        <span id="header-user-name">Welcome, <%= user_name %>!</span>&emsp;&emsp;&emsp;
+        <span id="header-log-out"><a href="/users/destroy-session">Log Out</a></span>
+    </div>
+
+</div>
+
+<div id="habit-body">
+    <div id="habit-body-header">Start tracking your habits!</div>
+    <div id="links">
+        <div id="home"><a href="/habit">Home</a></div>
+        <div id="week"><a href="/habit/weekly">Weekly</a></div>
+        <div id="week"><a href="/habit/favourites">Favourites</a></div>
+    </div>
+    <form method="POST" action="/habit/create-habit">
+        <input type="text" name="name" placeholder="Habit Name" required>&nbsp;
+        <button type="submit">Add habit</button>
+    </form>
+
+    <% for(let i=0;i<habits.length;i++) { %>
+        <div class="individual-habit">
+            <div class="wrapper">
+                <div class="habit-name"><a href="/habit/detailed/<%= habits[i]._id %>">
+                        <%= habits[i].name %> &nbsp;<i class="fa fa-external-link-square" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="mark-favourite">
+                    <% if(habits[i].favourite===false) { %>
+                        <a href="/habit/toggle-favourite/<%= habits[i]._id %>"><img
+                                src="https://image.flaticon.com/icons/png/512/1828/1828970.png"></a>
+                    <% }else{ %>
+                            <a href="/habit/toggle-favourite/<%= habits[i]._id %>"><img
+                                    src="https://image.flaticon.com/icons/png/512/1828/1828884.png"></a>
+                    <% } %>
+                </div>
+            </div>
+            <div class="habit-stat-delete">
+                <div class="habit-stats">
+                    <p>Created At : <%= habits[i].creation_date %>
+                    </p>
+                    <p>Completed : <%= completedLength[i] %>/<%= habits[i].dates.length %>
+                                <div class="completion-percentage" style="display: none;">
+                                    <%= (completedLength[i]/habits[i].dates.length) * 100 %>
+                                </div>
+                    </p>
+                    <p>Highest Streak: <%= streak[i] %> days </p>
+                </div>
+                <a href="/habit/delete-habit<%= habits[i]._id %>">
+                    <div class="habit-delete"><img src="https://image.flaticon.com/icons/png/512/458/458594.png"></div>
+                </a>
+            </div>
+        </div>
+        <% } %>
+
+            <div id="chartWrapper">
+                <canvas id="myChart"></canvas>
+            </div>
+</div>
+<script>
+    let myChart = document.getElementById('myChart').getContext('2d');
+    let habitNames = document.getElementsByClassName('habit-name');
+    let habitPercentages = document.getElementsByClassName('completion-percentage');
+    let names = new Array();
+    let percentages = new Array();
+    for (let i = 0; i < habitNames.length; i++) {
+        names.push(habitNames[i].innerText);
+        percentages.push(habitPercentages[i].innerText);
+    }
+
+    let completionChart = new Chart(myChart, {
+        type: 'bar',
+        data: {
+            labels: names,
+            datasets: [{
+                label: 'Completion %',
+                data: percentages,
+                backgroundColor: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#3B3EAC', '#0099C6', '#DD4477',
+                    '#66AA00', '#B82E2E', '#316395', '#994499', '#22AA99', '#AAAA11', '#6633CC', '#E67300', '#8B0707', '#329262',
+                    '#5574A6', '#3B3EAC',],
+            }],
+        },
+        options: {
+
+        }
+    });
+</script>

@@ -1,0 +1,90 @@
+<link rel="stylesheet" type="text/css" href="/css/habit_index.css">
+<div id="habit-header">
+    <div id="header-name">TrackMe</div>
+    <div>
+        <span id="header-user-name">Welcome, <%= user_name %>!</span>&emsp;&emsp;&emsp;
+        <span id="header-log-out"><a href="/users/destroy-session">Log Out</a></span>
+    </div>
+
+</div>
+
+<div id="habit-body">
+    <div id="habit-body-header">Last 7 days statistics!</div>
+    <div id="links">
+        <div id="home"><a href="/habit">Home</a></div>
+        <div id="week"><a href="/habit/weekly">Weekly</a></div>
+        <div id="week"><a href="/habit/favourites">Favourites</a></div>
+    </div>
+    <% for(let habit of habits) { %>
+        <div class="individual-habit">
+            <div class="habit-name">
+                <%= habit.name %>
+            </div>
+            <% for(let i=6;i>=0;i--) { %>
+                <div class="calender-item">
+                    <div class="calender-upper-div">
+                        <%= months[i] %>, <%= dates[i] %>
+                    </div>
+                    <% if(habit.dates[i].completed==='pending' ) { %>
+                        <a href="/habit/toggle?habit=<%= habit._id %>&index=<%= i %>&value=<%= 'done' %>">
+                            <div class="calender-bottom-div"><img
+                                    src="https://image.flaticon.com/icons/png/512/1500/1500374.png"></div>
+                        </a>
+                        <% }else if(habit.dates[i].completed==='done' ){ %>
+                            <a href="/habit/toggle?habit=<%= habit._id %>&index=<%= i %>&value=<%= 'not-done' %>">
+                                <div class="calender-bottom-div"><img
+                                        src="https://image.flaticon.com/icons/png/512/190/190411.png"></div>
+                            </a>
+                            <% }else{ %>
+                                <a href="/habit/toggle?habit=<%= habit._id %>&index=<%= i %>&value=<%= 'pending' %>">
+                                    <div class="calender-bottom-div"><img
+                                            src="https://img-premium.flaticon.com/png/512/1008/premium/1008927.png?token=exp=1628544186~hmac=b56d4cf3ec11a9961910f6f41baddb97">
+                                    </div>
+                                </a>
+                                <% } %>
+                </div>
+                <% } %>
+        </div>
+        <% } %>
+
+            <% for(let count of countCompleted) { %>
+                <div class="completion-percentage" style="display: none;">
+                    <%= (count/7) * 100 %>
+                </div>
+                <% } %>
+
+                    <div id="chartWrapper-doughnut">
+                        <canvas id="myChart"></canvas>
+                    </div>
+
+</div>
+
+<script>
+    let myChart = document.getElementById('myChart').getContext('2d');
+    let habitNames = document.getElementsByClassName('habit-name');
+    let habitPercentages = document.getElementsByClassName('completion-percentage');
+    let names = new Array();
+    let percentages = new Array();
+    for (let i = 0; i < habitNames.length; i++) {
+        names.push(habitNames[i].innerText);
+        percentages.push(habitPercentages[i].innerText);
+        console.log(habitPercentages[i].innerText)
+    }
+
+    let completionChart = new Chart(myChart, {
+        type: 'doughnut',
+        data: {
+            labels: names,
+            datasets: [{
+                label: 'Completion %',
+                data: percentages,
+                backgroundColor: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#3B3EAC', '#0099C6', '#DD4477',
+                                '#66AA00', '#B82E2E', '#316395', '#994499', '#22AA99', '#AAAA11', '#6633CC', '#E67300', '#8B0707', '#329262',
+                                '#5574A6','#3B3EAC',],
+            }],
+        },
+        options: {
+
+        }
+    });
+</script>
