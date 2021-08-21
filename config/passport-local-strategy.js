@@ -14,9 +14,10 @@ passport.use(new LocalStrategy({
             }
 
             if(!user || user.password!=password){
+                req.flash('error', 'Invalid email/passowrd!');
                 return done(null, false); //authentication not done --> user not found
             }
-
+            req.flash('success', 'Logged in successfully!');
             return done(null, user); //authentication done --> user found
         });
     }

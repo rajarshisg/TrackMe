@@ -22,6 +22,7 @@ module.exports.home = async function (req, res) {
                 currLength = 0;
             }
         }
+        habit.save();
         countCompleted.push(count);
         streak.push(maxLength);
     }
@@ -106,6 +107,7 @@ module.exports.toggleHabit = async function (req, res) {
     console.log(req.params.index);
     habit.dates[req.query.index].completed = req.query.value;
     habit.save();
+    req.flash('success', 'Habit Updated!')
     return res.redirect('back');
 }
 
@@ -158,13 +160,15 @@ module.exports.getHabit = async function (req, res) {
 
 }
 
-module.exports.toggleHabit = async function(req, res){
+module.exports.toggleHabitFavourite = async function(req, res) {
     let habit = await Habit.findById(req.params.id);
 
-    if(habit.favourite==false){
+    if(habit.favourite == false) {
         habit.favourite = true;
-    }else{
+        req.flash('success', 'Marked as Favourite!');
+    }else {
         habit.favourite = false;
+        req.flash('success', 'Removed from Favourite!');
     }
     habit.save();
     return res.redirect('back');

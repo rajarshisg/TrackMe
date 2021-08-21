@@ -16,11 +16,13 @@ module.exports.signIn = function(req, res){
 
 module.exports.createUser = async function(req, res){
     if(req.body.password!=req.body.confirm_password){
+        req.flash('error', 'Passwords don\'t match!');
         return res.redirect('back');
     }
     const user = await User.findOne({email : req.body.email});
 
     if(user){
+        req.flash('error', 'User already exists!');
         return res.redirect('/');
     }else{
         User.create({
@@ -38,5 +40,6 @@ module.exports.createSession = function(req, res){
 
 module.exports.destroySession = function(req, res){
     req.logout();
+    req.flash('success', 'Logged out successfully!')
     return res.redirect('/')
 }

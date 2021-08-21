@@ -10,6 +10,6 @@ router.post('/create-habit', passport.checkAuthentication, habitController.creat
 router.get('/delete-habit:id', passport.checkAuthentication, habitController.deleteHabit);
 router.get('/toggle', passport.checkAuthentication, habitController.toggleHabit);
 router.get('/detailed/:id', passport.checkAuthentication, habitController.getHabit);
-router.get('/toggle-favourite/:id', passport.checkAuthentication, habitController.toggleHabit);
+router.get('/toggle-favourite/:id', passport.checkAuthentication, habitController.toggleHabitFavourite);
 router.get('/favourites', passport.checkAuthentication, habitController.getFavourites);
 module.exports = router;

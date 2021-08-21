@@ -157,7 +157,8 @@
     font-size: .8rem;
     height: 1rem;
     background-color: rgb(31, 147, 255);
-    border-radius: .2rem;
+    border-top-left-radius: .2rem;
+    border-top-right-radius: .2rem;
 }
 .calender-item .calender-bottom-div img{
     margin-top: 5px;
