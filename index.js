@@ -22,6 +22,7 @@ app.use(expressLayouts); //app uses express-ejs-layouts
 app.set('layout extractStyles', true); //extract styles from subpages into layout.ejs file
 app.set('layout extractScripts', true); //extract scripts from subpages into layout.ejs file
 
+let mongoUrl = process.env.MONGODB_URL || 'mongodb://localhost/habittracker_development';
 app.use(session({
     name : 'connecti', //cookie name
     secret : '2s5v8y/B?D(G+KbPeShVmYq3t6w9z$C&', //encryption key
@@ -32,7 +33,7 @@ app.use(session({
     },
     store : MongoStore.create(
         {
-            mongoUrl : 'mongodb://localhost/habittracker_development',
+            mongoUrl : mongoUrl
         },
     )
 }));
