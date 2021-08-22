@@ -3,13 +3,19 @@ const Habit = require('../models/habit');
 module.exports.home = async function (req, res) {
     let habits = await Habit.find({ user: req.user._id });
     let d = new Date();
-    var newDate = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+    var currDate = new Date(d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear());
     let countCompleted = new Array();
     let streak = new Array();
     for (habit of habits) {
-        if (habit.dates[habit.dates.length - 1].date !== newDate) {
-            habit.dates.push({ completed: 'pending', date: newDate });
+        var lastDate = new Date(habit.dates[habit.dates.length - 1].date);
+        var numDays = (currDate.getTime() - lastDate.getTime()) / (1000 * 3600 * 24);
+
+        while(numDays > 0) {
+            habit.dates.push({ completed: 'pending', date: currDate });
+            currDate.setDate(currDate.getDate() - 1);             
+            numDays--;
         }
+    
         let count = 0, maxLength = 0, currLength = 0;
         for (let i = 0; i < habit.dates.length; i++) {
             if (habit.dates[i].completed === 'done') {
@@ -22,7 +28,6 @@ module.exports.home = async function (req, res) {
                 currLength = 0;
             }
         }
-        habit.save();
         countCompleted.push(count);
         streak.push(maxLength);
     }
@@ -80,11 +85,11 @@ module.exports.daily = function (req, res) {
 
 module.exports.createHabit = async function (req, res) {
     let date = new Date();
-    var newDate = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+    var newDate = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
     let dates = new Array();
-    for (let i = 0; i < 7; i++) {
+    for (let i = 6; i >= 0; i--) {
         var lastDate = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
-        var lastDateString = lastDate.getDate() + "/" + lastDate.getMonth() + "/" + lastDate.getFullYear();
+        var lastDateString = lastDate.getMonth() + "/" + lastDate.getDate() + "/" + lastDate.getFullYear();
         dates.push({ completed: 'pending', date: lastDateString });
     }
     const habit = await Habit.create({
