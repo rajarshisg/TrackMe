@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/habittracker_development');
+let mongoUrl = process.env.MONGODB_URL || 'mongodb://localhost/habittracker_development';
+mongoose.connect(mongoUrl);
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'Error occured in connecting to MongoDB!'));
