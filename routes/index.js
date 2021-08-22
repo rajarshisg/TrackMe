@@ -5,7 +5,6 @@ router.get('/', function(req, res){
     if(req.isAuthenticated()){
         return res.redirect('/habit')
     }
-    req.flash('success', 'You\'ve landed on TrackMe\'s website!');
     return res.render('authenticate');
 });
 

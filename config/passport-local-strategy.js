@@ -17,7 +17,7 @@ passport.use(new LocalStrategy({
                 req.flash('error', 'Invalid email/passowrd!');
                 return done(null, false); //authentication not done --> user not found
             }
-            req.flash('success', 'Logged in successfully!');
+            req.flash('success', `Welcome, ${user.name}!`);
             return done(null, user); //authentication done --> user found
         });
     }

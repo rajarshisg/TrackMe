@@ -63,8 +63,6 @@ module.exports.weekly = async function (req, res) {
         countCompleted.push(count);
     }
 
-    req.flash('success', `Welcome, ${user_name}!`);
-
     return res.render('habit_weekly', {
         user_name: req.user.name,
         habits: habits,
