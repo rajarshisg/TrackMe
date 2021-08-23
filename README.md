@@ -7,13 +7,14 @@ TrackMe is a habit tracking we application made using Node.JS. It helps users to
 
 ## Deployment
 
-To deploy this project run
+The project is deployed [here](heroku-track-me.herokuapp.com)
 
-```bash
-  npm run deploy
-```
+## Screenshots 
 
-  
+![unnamed](https://user-images.githubusercontent.com/55212405/130433237-32ea1e95-150c-4b7a-960e-f72c31676c7c.jpg)
+
+
+
 ## Tech Stack
 
 **Client:** HTML, CSS
