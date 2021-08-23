@@ -11,7 +11,7 @@ The project is deployed [here](heroku-track-me.herokuapp.com)
 
 ## Screenshots 
 
-![unnamed](https://user-images.githubusercontent.com/55212405/130433237-32ea1e95-150c-4b7a-960e-f72c31676c7c.jpg)
+<img width="600px" src="https://user-images.githubusercontent.com/55212405/130433237-32ea1e95-150c-4b7a-960e-f72c31676c7c.jpg">
 
 
 
