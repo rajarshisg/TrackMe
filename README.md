@@ -51,11 +51,6 @@ Start the server
 ```bash
   npm start
 ```
-Open Browser
-
-```bash
-   localhost:8000
-```
 
 ## Authors
 
