@@ -13,7 +13,8 @@ The project is deployed [here](https://heroku-track-me.herokuapp.com/)
 
 <img width="500px" src="https://user-images.githubusercontent.com/55212405/130433237-32ea1e95-150c-4b7a-960e-f72c31676c7c.jpg"> 
 
-<img width="300px" src="https://user-images.githubusercontent.com/55212405/130433574-e7941f98-6420-4015-8acc-b92049798c89.jpg">&emsp;&emsp;<img width="300px" src="https://user-images.githubusercontent.com/55212405/130433590-5294a786-dda2-4f42-837b-4faccaebee90.jpg">&emsp;&emsp;<img width ="300px" src="https://user-images.githubusercontent.com/55212405/130433578-0bcc433d-f85e-4502-b274-78bb4f158550.jpg">
+<img width="500px" alt="Capture" src="https://user-images.githubusercontent.com/55212405/132210509-4f69eafd-1425-49ea-8489-74a2eebbd878.PNG">
+<img width="500px" alt="Capture1" src="https://user-images.githubusercontent.com/55212405/132210518-147b0473-6426-4a34-98a5-f5922d46a23e.PNG">
 
 
 
