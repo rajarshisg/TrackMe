@@ -1,45 +1,62 @@
 <!DOCTYPE html>
+<!--Begining of HTML-->
 <html>
-    <head>
-        <title>Habit Tracker</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="/css/layout.css">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://kit.fontawesome.com/6f0f83005a.js" crossorigin="anonymous"></script>
-        <!--Noty js for notifications-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
-        <%- style %>
-    </head>
+<!--Begining of head-->
 
-    <body>
-        <main id="variable-body">
-            <%- body %>
-        </main>
-    </body>
-    <%- script %>
+<head>
+    <!--Title-->
+    <title>Habit Tracker</title>
+    <!--Google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <!--ChartJS Library-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!--Font Awesome-->
+    <script src="https://kit.fontawesome.com/6f0f83005a.js" crossorigin="anonymous"></script>
+    <!--Noty js for notifications-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <!--JQuery-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <%- style %>
+</head>
+<!--End of head-->
+
+<!--Begining of body-->
+
+<body>
+    <main id="variable-body">
+        <%- body %>
+    </main>
+</body>
+<!--End of body-->
+
+<!--Script tags-->
+<%- script %>
 
     <script>
         /*Noty Notifications*/
-        <% if(flash.success && flash.success.length > 0) { %>
+        <% if (flash.success && flash.success.length > 0) { %>
             new Noty({
-                theme : 'bootstrap-v3',
-                text : '<%= flash.success %>',
-                type : 'success',
-                layout : 'topRight',
-                timeout : 1500
+                theme: 'bootstrap-v3',
+                text: '<%= flash.success %>',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
             }).show()
-        <% } %>
-        <% if(flash.error && flash.error.length > 0) { %>
+            <% } %>
+        <% if (flash.error && flash.error.length > 0) { %>
             new Noty({
-                theme : 'bootstrap-v3',
-                text : '<%= flash.error %>',
-                type : 'error',
-                layout : 'topRight',
-                timeout : 1500
+                theme: 'bootstrap-v3',
+                text: '<%= flash.error %>',
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
             }).show()
-        <% } %>
+            <% } %>
     </script>
+
 </html>
+<!--End of HTML-->

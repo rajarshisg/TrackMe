@@ -1,4 +1,4 @@
-#authenticate-root-div{
+#authenticate-root-div {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -12,10 +12,11 @@
     padding: 1rem;
 }
 
-a{
+a {
     text-decoration: none;
 }
-#authenticate-sign-up{
+
+#authenticate-sign-up {
     width: 30vw;
     height: 1.5rem;
     background-color: darkorange;
@@ -25,7 +26,8 @@ a{
     padding: 1rem;
     margin-bottom: 1rem;
 }
-#authenticate-sign-in{
+
+#authenticate-sign-in {
     width: 30vw;
     height: 1.5rem;
     background-color: rgb(156, 0, 0);
@@ -35,18 +37,21 @@ a{
     padding: 1rem;
     margin-bottom: 1rem;
 }
-#authenticate-sign-up:hover{
+
+#authenticate-sign-up:hover {
     background-color: rgb(221, 122, 0);
 }
-#authenticate-sign-in:hover{
+
+#authenticate-sign-in:hover {
     background-color: rgb(126, 1, 1);
 }
-#authenticate-header{
+
+#authenticate-header {
     font-size: 2rem;
     color: cyan;
 }
 
-input{
+input {
     width: 30vw;
     height: 1.5rem;
     padding: .5rem;
@@ -56,7 +61,7 @@ input{
     outline: none;
 }
 
-button{
+button {
     width: 11vw;
     padding: .6rem;
     border-radius: .5rem;
@@ -67,7 +72,7 @@ button{
     font-family: 'Orbitron', sans-serif;
 }
 
-img{
+img {
     border-radius: 50%;
     height: 120px;
     width: 120px;
@@ -75,4 +80,3 @@ img{
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
-

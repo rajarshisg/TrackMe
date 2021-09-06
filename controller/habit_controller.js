@@ -1,21 +1,30 @@
-const Habit = require('../models/habit');
+const Habit = require('../models/habit'); //habits model
+const moment = require('moment'); //used to handle dates
 
+//rendering the home page
 module.exports.home = async function (req, res) {
-    let habits = await Habit.find({ user: req.user._id });
+    let habits = await Habit.find({ user: req.user._id }); //fetching all the habits associated with the logged in user
+
+    /*---------Calculating Streak, Completion % and pushing new dates for each habit------------*/
     let d = new Date();
-    var currDate = new Date(d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear());
+    var currDate = moment(d.getDate() + "/" + (d.getMonth() + 1) +  "/" + d.getFullYear(), 'DD/MM/YYYY'); //todays date
     let countCompleted = new Array();
     let streak = new Array();
     for (habit of habits) {
-        var lastDate = new Date(habit.dates[habit.dates.length - 1].date);
-        var numDays = (currDate.getTime() - lastDate.getTime()) / (1000 * 3600 * 24);
-
-        while(numDays > 0) {
-            habit.dates.push({ completed: 'pending', date: currDate });
-            currDate.setDate(currDate.getDate() - 1);             
+        var lastDate = moment(habit.dates[habit.dates.length - 1].date, 'DD/MM/YYYY'); //the last date that was added to the habit
+        var numDays = currDate.diff(lastDate,'days'); //diff between last added date and todays date
+        currDate.add(-numDays, 'days');
+        //adding remaining dates
+        while (numDays > 0) {
+            //pushing the new date
+            habit.dates.push({ completed: 'pending', date: currDate.format('DD/MM/YYYY') });
+            //updating curr date
+            currDate.add(+1, 'days');
             numDays--;
         }
-    
+        habit.save(); //saving
+
+        //finding streak, completed days
         let count = 0, maxLength = 0, currLength = 0;
         for (let i = 0; i < habit.dates.length; i++) {
             if (habit.dates[i].completed === 'done') {
@@ -28,150 +37,91 @@ module.exports.home = async function (req, res) {
                 currLength = 0;
             }
         }
-        countCompleted.push(count);
-        streak.push(maxLength);
+        countCompleted.push(count); //total number of completed days for the given habit
+        streak.push(maxLength); //highest streak for the given habit
     }
-    let habitNames = new Array();
-    for(let i=0;i<habits.length;i++){
-        habitNames.push(habits[i].name);
-    }
+
+    //rendering the page
     return res.render('habit_index', {
         user_name: req.user.name,
         habits: habits,
         completedLength: countCompleted,
         streak: streak,
-        habitNames: habitNames
+        
     });
 }
 
+//this shows the weekly view
 module.exports.weekly = async function (req, res) {
-    let habits = await Habit.find({ user: req.user._id });
-    let monthsArray = new Array();
-    let datesArray = new Array();
-    var date = new Date();
-    let getMonth = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
-    for (let i = 0; i < 7; i++) {
-        var last = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
-        var day = last.getDate();
-        var month = getMonth[last.getMonth()];
-        datesArray.push(day);
-        monthsArray.push(month);
-    }
-    let countCompleted = new Array();
-    for(let i=0;i<habits.length;i++){
-        let count = 0;
-        for(let j=habits[i].dates.length-1;j>=habits[i].dates.length - 7;j--){
-            if(habits[i].dates[j].completed==='done'){
-                count++;
-            }
+    let habits = await Habit.find({ user: req.user._id }); //finding the habits belonging to the logged in user
+    let dates = new Array();
+
+    //finding the last 7 days
+    for(let habit of habits) {
+        for(let i = habit.dates.length - 1; i>= habit.dates.length - 7 ; i--) {
+            dates.push(moment(habit.dates[i].date, 'DD/MM/YYYY').format('DD MMM'));
         }
-        countCompleted.push(count);
     }
 
+    //rendering the
     return res.render('habit_weekly', {
         user_name: req.user.name,
         habits: habits,
-        dates: datesArray,
-        months: monthsArray,
-        countCompleted: countCompleted
+        dates: dates
     });
 }
 
-module.exports.daily = function (req, res) {
-    return res.redirect('habit_daily', {
-        user_name: req.user.name
-    });
-}
 
+//route for creating a new habit
 module.exports.createHabit = async function (req, res) {
     let date = new Date();
-    var newDate = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
+    var newDate = moment(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear(), "DD/MM/YYYY");
+    var creationDate = newDate.format("DD/MM/YYYY");
+
     let dates = new Array();
+    newDate.add(-6, 'days');
+
+    //adding the last 7 days
     for (let i = 6; i >= 0; i--) {
-        var lastDate = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
-        var lastDateString = lastDate.getMonth() + "/" + lastDate.getDate() + "/" + lastDate.getFullYear();
+        var lastDateString = newDate.format('DD/MM/YYYY');
         dates.push({ completed: 'pending', date: lastDateString });
+        newDate = newDate.add(+1, 'days');
     }
+
+    //creating the habit
     const habit = await Habit.create({
         name: req.body.name,
         user: req.user._id,
-        creation_date: newDate,
+        creation_date: creationDate,
         dates: dates
     });
 
     return res.redirect('back');
 }
 
+//deletes the particular habit
 module.exports.deleteHabit = async function (req, res) {
     await Habit.findByIdAndDelete(req.params.id);
     return res.redirect('back');
 }
 
+//toggles a habit as marked/unmarkes/not-done
 module.exports.toggleHabit = async function (req, res) {
     let habit = await Habit.findById(req.query.habit);
-    console.log(req.params.index);
     habit.dates[req.query.index].completed = req.query.value;
     habit.save();
     req.flash('success', 'Habit Updated!')
     return res.redirect('back');
 }
 
-module.exports.getHabit = async function (req, res) {
-    let habit = await Habit.findById(req.params.id);
-    let monthsArray = new Array();
-    let datesArray = new Array();
-    var date = new Date();
-    let percentageTillNow = new Array();
-    let countCompleted = 0, countDays = 1;
-    for(let date of habit.dates.reverse()){
-        if(date.completed === 'done'){
-            countCompleted++;
-        }
-        let val = countCompleted * 100 / countDays;
-        console.log(val);
-        percentageTillNow.push(val);
-        countDays++;
-    }
-    let getMonth = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
-    for (let i = 0; i < 7; i++) {
-        var last = new Date(date.getTime() - (i * 24 * 60 * 60 * 1000));
-        var day = last.getDate();
-        var month = getMonth[last.getMonth()];
-        datesArray.push(day);
-        monthsArray.push(month);
-    }
-    let count = 0, maxLength = 0, currLength = 0;
-    for (let i = 0; i < habit.dates.length; i++) {
-        if (habit.dates[i].completed === 'done') {
-            count++;
-            currLength++;
-            if (maxLength <= currLength) {
-                maxLength = currLength;
-            }
-        } else {
-            currLength = 0;
-        }
-    }
-
-    return res.render('habit_detailed', {
-        user_name: req.user.name,
-        habit : habit,
-        countCompleted : count,
-        streak : maxLength,
-        dates : datesArray,
-        months : monthsArray,
-        percentageTillNow : percentageTillNow
-    })
-
-}
-
-module.exports.toggleHabitFavourite = async function(req, res) {
+//toggling a habit as favourite/unfavourite
+module.exports.toggleHabitFavourite = async function (req, res) {
     let habit = await Habit.findById(req.params.id);
 
-    if(habit.favourite == false) {
+    if (habit.favourite == false) {
         habit.favourite = true;
         req.flash('success', 'Marked as Favourite!');
-    }else {
+    } else {
         habit.favourite = false;
         req.flash('success', 'Removed from Favourite!');
     }
@@ -179,16 +129,19 @@ module.exports.toggleHabitFavourite = async function(req, res) {
     return res.redirect('back');
 }
 
+/* This fetches all the favourite habits and deisplays them, all the functionalities inside
+   are exaclty similar to home function (the first function) 
+*/
 module.exports.getFavourites = async function (req, res) {
-    let habits = await Habit.find({ user: req.user._id, favourite : true });
+    let habits = await Habit.find({ user: req.user._id, favourite: true }); //fetching the favourite habits for a user
+
     let d = new Date();
     var newDate = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
     let countCompleted = new Array();
     let streak = new Array();
+
+    /*----Calculating the streak, completed days etc----*/
     for (habit of habits) {
-        if (habit.dates[habit.dates.length - 1].date !== newDate) {
-            habit.dates.push({ completed: 'pending', date: newDate });
-        }
         let count = 0, maxLength = 0, currLength = 0;
         for (let i = 0; i < habit.dates.length; i++) {
             if (habit.dates[i].completed === 'done') {
@@ -204,15 +157,12 @@ module.exports.getFavourites = async function (req, res) {
         countCompleted.push(count);
         streak.push(maxLength);
     }
-    let habitNames = new Array();
-    for(let i=0;i<habits.length;i++){
-        habitNames.push(habits[i].name);
-    }
+
+    //rendering the page
     return res.render('habit_index', {
         user_name: req.user.name,
         habits: habits,
         completedLength: countCompleted,
         streak: streak,
-        habitNames: habitNames
     });
 }

@@ -1,40 +1,50 @@
+<!--CSS-->
 <link rel="stylesheet" type="text/css" href="/css/habit_index.css">
+
+<!--Header div-->
 <div id="habit-header">
     <div id="header-name">TrackMe</div>
     <div>
         <span id="header-user-name">Welcome, <%= user_name %>!</span>&emsp;&emsp;&emsp;
         <span id="header-log-out"><a href="/users/destroy-session">Log Out</a></span>
     </div>
-
 </div>
+<!--End of header div-->
 
+<!--Root div which displays all habits-->
 <div id="habit-body">
+    <!--Header-->
     <div id="habit-body-header">Start tracking your habits!</div>
+    <!--Links-->
     <div id="links">
         <div id="home"><a href="/habit">Home</a></div>
         <div id="week"><a href="/habit/weekly">Weekly</a></div>
         <div id="week"><a href="/habit/favourites">Favourites</a></div>
     </div>
+    <!--End of Links-->
+
+    <!--Form-->
     <form method="POST" action="/habit/create-habit">
         <input type="text" name="name" placeholder="Habit Name" required>&nbsp;
         <button type="submit">Add habit</button>
     </form>
+    <!--End of form-->
 
+    <!--Habits-->
     <% for(let i=0;i<habits.length;i++) { %>
         <div class="individual-habit">
             <div class="wrapper">
-                <div class="habit-name"><a href="/habit/detailed/<%= habits[i]._id %>">
-                        <%= habits[i].name %> &nbsp;<i class="fa fa-external-link-square" aria-hidden="true"></i>
-                    </a>
+                <div class="habit-name">
+                        <%= habits[i].name %>
                 </div>
                 <div class="mark-favourite">
                     <% if(habits[i].favourite===false) { %>
                         <a href="/habit/toggle-favourite/<%= habits[i]._id %>"><img
                                 src="https://image.flaticon.com/icons/png/512/1828/1828970.png"></a>
-                    <% }else{ %>
+                        <% }else{ %>
                             <a href="/habit/toggle-favourite/<%= habits[i]._id %>"><img
                                     src="https://image.flaticon.com/icons/png/512/1828/1828884.png"></a>
-                    <% } %>
+                            <% } %>
                 </div>
             </div>
             <div class="habit-stat-delete">
@@ -42,9 +52,6 @@
                     <p>Created At : <%= habits[i].creation_date %>
                     </p>
                     <p>Completed : <%= completedLength[i] %>/<%= habits[i].dates.length %>
-                                <div class="completion-percentage" style="display: none;">
-                                    <%= (completedLength[i]/habits[i].dates.length) * 100 %>
-                                </div>
                     </p>
                     <p>Highest Streak: <%= streak[i] %> days </p>
                 </div>
@@ -54,36 +61,6 @@
             </div>
         </div>
         <% } %>
-
-            <div id="chartWrapper">
-                <canvas id="myChart"></canvas>
-            </div>
+        <!--End of habits-->
 </div>
-<script>
-    let myChart = document.getElementById('myChart').getContext('2d');
-    let habitNames = document.getElementsByClassName('habit-name');
-    let habitPercentages = document.getElementsByClassName('completion-percentage');
-    let names = new Array();
-    let percentages = new Array();
-    for (let i = 0; i < habitNames.length; i++) {
-        names.push(habitNames[i].innerText);
-        percentages.push(habitPercentages[i].innerText);
-    }
-
-    let completionChart = new Chart(myChart, {
-        type: 'bar',
-        data: {
-            labels: names,
-            datasets: [{
-                label: 'Completion %',
-                data: percentages,
-                backgroundColor: ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#3B3EAC', '#0099C6', '#DD4477',
-                    '#66AA00', '#B82E2E', '#316395', '#994499', '#22AA99', '#AAAA11', '#6633CC', '#E67300', '#8B0707', '#329262',
-                    '#5574A6', '#3B3EAC',],
-            }],
-        },
-        options: {
-
-        }
-    });
-</script>
+<!--End of root div-->

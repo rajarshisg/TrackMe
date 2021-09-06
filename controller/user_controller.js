@@ -1,44 +1,50 @@
-const User = require('../models/user');
+const User = require('../models/user'); //Uswrs model
 
-module.exports.signUp = function(req, res){
-    if(req.isAuthenticated()){
+//signing up page
+module.exports.signUp = function (req, res) {
+    if (req.isAuthenticated()) {
         return res.redirect('/habit')
     }
     return res.render('sign_up');
 }
 
-module.exports.signIn = function(req, res){
-    if(req.isAuthenticated()){
+//signing in page
+module.exports.signIn = function (req, res) {
+    if (req.isAuthenticated()) {
         return res.redirect('/habit')
     }
     return res.render('sign_in');
 }
 
-module.exports.createUser = async function(req, res){
-    if(req.body.password!=req.body.confirm_password){
+
+//creating a new user
+module.exports.createUser = async function (req, res) {
+    if (req.body.password != req.body.confirm_password) {
         req.flash('error', 'Passwords don\'t match!');
         return res.redirect('back');
     }
-    const user = await User.findOne({email : req.body.email});
+    const user = await User.findOne({ email: req.body.email });
 
-    if(user){
+    if (user) {
         req.flash('error', 'User already exists!');
         return res.redirect('/');
-    }else{
+    } else {
         User.create({
-            email : req.body.email,
-            password : req.body.password,
-            name : req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            name: req.body.name,
         });
         return res.redirect('/users/sign-in');
     }
 }
 
-module.exports.createSession = function(req, res){
+//creates a new session
+module.exports.createSession = function (req, res) {
     return res.redirect('/habit');
 }
 
-module.exports.destroySession = function(req, res){
+//destroys the current session
+module.exports.destroySession = function (req, res) {
     req.logout();
     req.flash('success', 'Logged out successfully!')
     return res.redirect('/')

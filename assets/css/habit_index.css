@@ -1,20 +1,20 @@
-#habit-header{
+#habit-header {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    background-color: #161B22; 
+    background-color: #161B22;
     color: white;
     padding: 1rem;
     font-size: 1.2rem;
     color: cyan;
 }
 
-#header-user-name{
+#header-user-name {
     font-size: 1rem;
 }
 
-#header-log-out{
+#header-log-out {
     height: 1rem;
     padding: .5rem;
     border-radius: .5rem;
@@ -25,12 +25,12 @@
     color: white;
 }
 
-#header-log-out a{
+#header-log-out a {
     color: white;
     text-decoration: none;
 }
 
-#habit-body{
+#habit-body {
     width: 80vw;
     min-height: 70vh;
     margin-top: 5vh;
@@ -42,19 +42,19 @@
     margin-bottom: 5vh;
 }
 
-#habit-body #habit-body-header{
+#habit-body #habit-body-header {
     font-size: 1.5rem;
     font-weight: bold;
-    color : cyan;
+    color: cyan;
     margin-bottom: 2rem;
 }
 
-.habit-name a{
-    color : cyan;
+.habit-name {
+    color: cyan;
     text-decoration: none;
 }
 
-#habit-body #links{
+#habit-body #links {
     display: flex;
     flex-direction: row;
     margin-left: 30vw;
@@ -62,36 +62,37 @@
     margin-bottom: 2rem;
 }
 
-#habit-body #links a{
+#habit-body #links a {
     margin-right: 2rem;
     color: white;
 }
 
-#habit-body form{
+#habit-body form {
     margin-bottom: 2rem;
 }
-#habit-body form input{
+
+#habit-body form input {
     width: 60vw;
     border: none;
     height: 1.5rem;
     padding: .5rem;
     border-radius: .5rem;
-    outline : none
+    outline: none
 }
 
-#habit-body form button{
+#habit-body form button {
     padding: .5rem;
     color: white;
     background-color: rgb(156, 0, 0);
     border: none;
     border-radius: .5rem;
     height: 2.5rem;
-    padding-left : 1rem;
+    padding-left: 1rem;
     padding-right: 1rem;
     font-family: 'Orbitron', sans-serif;
 }
 
-.individual-habit{
+.individual-habit {
     width: 65vw;
     height: 4rem;
     background-color: rgb(29, 29, 29);
@@ -107,45 +108,46 @@
     margin-left: 6vw;
 }
 
-.individual-habit .habit-delete img{
+.individual-habit .habit-delete img {
     margin-top: 1.5rem;
     height: 30px;
     border-radius: 50%;
 }
 
-.individual-habit .wrapper{
+.individual-habit .wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     min-width: 10vw;
 }
 
-.individual-habit .wrapper .mark-favourite{
+.individual-habit .wrapper .mark-favourite {
     margin-left: 1rem;
     margin-top: 1.6rem;
 }
 
-.individual-habit .wrapper .mark-favourite img{
+.individual-habit .wrapper .mark-favourite img {
     height: 20px;
 }
 
-.individual-habit .habit-name{
+.individual-habit .habit-name {
     margin-top: 1.5rem;
     font-size: 1.2rem;
     font-weight: bold;
 }
-.individual-habit .habit-stats{
+
+.individual-habit .habit-stats {
     font-size: .6rem;
     text-align: justify;
     margin-right: 4rem;
 }
 
-.habit-stat-delete{
+.habit-stat-delete {
     display: flex;
     flex-direction: row;
 }
 
-.calender-item{
+.calender-item {
     height: 3rem;
     width: 7vw;
     background-color: rgb(105, 105, 105);
@@ -153,20 +155,21 @@
     border-radius: .2rem;
 }
 
-.calender-item .calender-upper-div{
+.calender-item .calender-upper-div {
     font-size: .8rem;
     height: 1rem;
     background-color: rgb(31, 147, 255);
     border-top-left-radius: .2rem;
     border-top-right-radius: .2rem;
 }
-.calender-item .calender-bottom-div img{
+
+.calender-item .calender-bottom-div img {
     margin-top: 5px;
     height: 20px;
 }
 
-#habit-detailed-header{
-    display : flex;
+#habit-detailed-header {
+    display: flex;
     flex-direction: row;
     width: 65vw;
     justify-content: space-between;
@@ -174,38 +177,38 @@
     margin-left: 8vw;
 }
 
-#habit-detailed-header #habit-detailed-name{
+#habit-detailed-header #habit-detailed-name {
     margin-top: 1.5rem;
     font-size: 1.4rem;
     font-weight: bold;
 }
 
-#habit-detailed-header #habit-detailed-stats{
+#habit-detailed-header #habit-detailed-stats {
     font-size: .8rem;
     text-align: left;
     vertical-align: middle;
 }
 
-
-#habit-detailed-header #habit-detailed-stats img{
-    height : 25px
+#habit-detailed-header #habit-detailed-stats img {
+    height: 25px
 }
 
-#chartWrapper{
-    width : 60vw;
-    margin-top : 10vh;
+#chartWrapper {
+    width: 60vw;
+    margin-top: 10vh;
     margin-left: 10vw;
     margin-bottom: 2rem;
 }
-#myChart{
+
+#myChart {
     background-color: white;
     border-radius: .5rem;
     padding: 1rem;
 }
 
-#chartWrapper-doughnut{
-    width : 35vw;
-    margin-top : 10vh;
+#chartWrapper-doughnut {
+    width: 35vw;
+    margin-top: 10vh;
     margin-left: 24vw;
     margin-bottom: 2rem;
 }
